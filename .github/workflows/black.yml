@@ -1,12 +1,11 @@
 name: black-format
-on: [push]
+on: [push, pull_request]
 jobs:
-    check-bats-version:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-            - uses: actions/setup-python@v2
-              with:
-                  python-version: '3.x'
-            - run: python -m pip install black
-            - run: black .
+  linter_name:
+    name: runner / black formatter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: rickstaa/action-black@v1
+        with:
+          black_args: ". --check"
