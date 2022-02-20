@@ -2,11 +2,12 @@ import os
 from logging import log
 import discord
 
+
 class PteroManager(discord.Bot):
     def __init__(self):
         super().__init__(
             intents=discord.Intents.default(),
-            allowed_mentions=discord.AllowedMentions.none()
+            allowed_mentions=discord.AllowedMentions.none(),
         )
 
     def load_cogs(self):
