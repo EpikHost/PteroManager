@@ -18,7 +18,9 @@ class Confirm(discord.ui.View):
     # Stop the View from listening to more input.
     # We also send the user an ephemeral message that we're confirming their choice.
     @discord.ui.button(label="Confirm", style=discord.ButtonStyle.green)
-    async def confirm(self, button: discord.ui.Button, interaction: discord.Interaction):
+    async def confirm(
+        self, button: discord.ui.Button, interaction: discord.Interaction
+    ):
         # await interaction.response.send_message("Confirming", ephemeral=True)
         self.value = True
         self.stop()
@@ -121,8 +123,7 @@ class Staff(commands.Cog):
                 color=0xFF0033,
             )
             await ctx.respond(embed=embed, ephemeral=True)
-    
-    
+
     @slash_command(
         guild_ids=[os.environ["GUILD_ID"]],
         description="Delete a specified server!",
@@ -161,7 +162,7 @@ class Staff(commands.Cog):
                     "port": jsonResponse["attributes"]["relationships"]["allocations"][
                         "data"
                     ][0]["attributes"]["port"],
-                    "internalid": jsonResponse["attributes"]["internal_id"]
+                    "internalid": jsonResponse["attributes"]["internal_id"],
                 }
                 info_embed = Embed(
                     title=f'Information about: {data["name"]}', color=0xCADCFC
@@ -186,7 +187,9 @@ class Staff(commands.Cog):
                     name="Memory Amount:", value=data["max_disk"], inline=False
                 )
                 info_embed.add_field(
-                    name="MAKE SURE!", value="\n\nENSURE THAT THIS IS THE SERVER YOU WANT TO DELETE, THIS IS NOT REVERSABLE!", inline=False
+                    name="MAKE SURE!",
+                    value="\n\nENSURE THAT THIS IS THE SERVER YOU WANT TO DELETE, THIS IS NOT REVERSABLE!",
+                    inline=False,
                 )
             else:
                 info_embed = Embed(
@@ -209,7 +212,6 @@ class Staff(commands.Cog):
                     }
                     var = data["internalid"]
                     req = await self._session.delete(
-                        
                         f"https://panel.epikhost.xyz/api/application/servers/{var}/force",
                         headers=headers,
                     )
@@ -223,9 +225,13 @@ class Staff(commands.Cog):
                         headers=headers,
                     )
                     if req.status == 200:
-                        await ctx.respond("Failed to delete. Please try again later.", ephemeral=True)
+                        await ctx.respond(
+                            "Failed to delete. Please try again later.", ephemeral=True
+                        )
                     else:
-                        await ctx.respond("Success! Deleted the server!", ephemeral=True)
+                        await ctx.respond(
+                            "Success! Deleted the server!", ephemeral=True
+                        )
                 else:
                     await ctx.respond("Cancelled! Stopping.", ephemeral=True)
             else:
@@ -242,7 +248,6 @@ class Staff(commands.Cog):
                     }
                     var = data["internalid"]
                     req = await self._session.delete(
-                        
                         f"https://panel.epikhost.xyz/api/application/servers/{var}/force",
                         headers=headers,
                     )
@@ -272,6 +277,7 @@ class Staff(commands.Cog):
                 color=0xFF0033,
             )
             await ctx.respond(embed=embed, ephemeral=True)
+
 
 def setup(bot):
     bot.add_cog(Staff(bot))
